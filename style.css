@@ -1,0 +1,479 @@
+/* Reset và Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Game Container */
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Header */
+.game-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-title i {
+    color: #667eea;
+    font-size: 2.2rem;
+}
+
+.game-stats {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2d3748;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, #fa709a, #fee140);
+    color: white;
+}
+
+/* Called Number Display */
+.called-number-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.called-number-label {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.called-number {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #2d3748;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 20px 40px;
+    display: inline-block;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 3px solid #667eea;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Bingo Card */
+.bingo-card-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.bingo-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    max-width: 500px;
+    width: 100%;
+}
+
+.bingo-cell {
+    aspect-ratio: 1;
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.bingo-cell:hover:not(.marked) {
+    background: #edf2f7;
+    border-color: #667eea;
+    transform: scale(1.02);
+}
+
+.bingo-cell.marked {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    cursor: default;
+    pointer-events: none;
+    transform: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+
+.bingo-cell.bingo-line {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    border: 3px solid #00f2fe;
+    box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+    animation: bingo-glow 2s ease-in-out infinite alternate;
+    transform: none !important;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    cursor: default;
+}
+
+@keyframes bingo-glow {
+    0% { 
+        box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+    }
+    100% { 
+        box-shadow: 0 0 30px rgba(79, 172, 254, 0.8);
+    }
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header h2 {
+    color: #4a5568;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-header i {
+    color: #f6ad55;
+    font-size: 1.8rem;
+}
+
+.modal-body {
+    margin-bottom: 30px;
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.modal-body span {
+    font-weight: 700;
+    color: #667eea;
+}
+
+/* Instructions */
+.instructions {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.instructions h3 {
+    color: #4a5568;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instructions i {
+    color: #667eea;
+}
+
+.instructions ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.instructions li {
+    padding: 8px 0;
+    color: #718096;
+    position: relative;
+    padding-left: 25px;
+}
+
+.instructions li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .game-stats {
+        justify-content: center;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+    
+    .called-number {
+        font-size: 3rem;
+        padding: 15px 30px;
+    }
+    
+    .bingo-card {
+        padding: 20px;
+        gap: 6px;
+    }
+    
+    .bingo-cell {
+        font-size: 1rem;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .called-number {
+        font-size: 2.5rem;
+        padding: 12px 24px;
+    }
+    
+    .bingo-card {
+        padding: 15px;
+        gap: 4px;
+    }
+    
+    .bingo-cell {
+        font-size: 0.9rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for keyboard navigation */
+.btn:focus,
+.bingo-cell:focus {
+    outline: 3px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .bingo-cell {
+        border-width: 3px;
+    }
+    
+    .bingo-cell.marked {
+        background: #000;
+        color: #fff;
+    }
+}
