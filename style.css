@@ -402,6 +402,12 @@ body {
     color: #667eea;
 }
 
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Instructions */
 .instructions {
     background: rgba(255, 255, 255, 0.9);
