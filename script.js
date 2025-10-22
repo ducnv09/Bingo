@@ -2,6 +2,7 @@
 class BingoGame {
     constructor() {
         this.cardSize = 5;
+        this.minNumber = 1;
         this.maxNumber = 99;
         this.card = [];
         this.calledNumbers = [];
@@ -12,6 +13,7 @@ class BingoGame {
         
         this.initializeElements();
         this.bindEvents();
+        this.loadSettings();
         this.generateNewCard();
     }
 
@@ -26,6 +28,8 @@ class BingoGame {
         this.gameOverModal = document.getElementById('game-over-modal');
         this.playAgainBtn = document.getElementById('play-again-btn');
         this.finalBingoCount = document.getElementById('final-bingo-count');
+        this.minNumberInput = document.getElementById('min-number');
+        this.maxNumberInput = document.getElementById('max-number');
     }
 
     bindEvents() {
@@ -33,6 +37,10 @@ class BingoGame {
         this.callNumberBtn.addEventListener('click', () => this.callNumber());
         this.autoCallBtn.addEventListener('click', () => this.toggleAutoCall());
         this.playAgainBtn.addEventListener('click', () => this.startNewGame());
+        
+        // Settings events
+        this.minNumberInput.addEventListener('input', () => this.updateCardOnSettingsChange());
+        this.maxNumberInput.addEventListener('input', () => this.updateCardOnSettingsChange());
         
         // Close modal when clicking outside
         this.gameOverModal.addEventListener('click', (e) => {
@@ -42,13 +50,71 @@ class BingoGame {
         });
     }
 
+    updateCardOnSettingsChange() {
+        // Validate settings first
+        this.validateSettings();
+        
+        // Update card if game is not active or if game has ended
+        if (!this.gameActive) {
+            this.generateNewCard();
+        }
+    }
+
+    loadSettings() {
+        this.minNumber = parseInt(this.minNumberInput.value) || 1;
+        this.maxNumber = parseInt(this.maxNumberInput.value) || 99;
+        this.validateSettings();
+    }
+
+    validateSettings() {
+        let minVal = parseInt(this.minNumberInput.value) || 1;
+        let maxVal = parseInt(this.maxNumberInput.value) || 99;
+        
+        // Ensure min is at least 1
+        if (minVal < 1) {
+            minVal = 1;
+            this.minNumberInput.value = 1;
+        }
+        
+        // Ensure max is at most 99
+        if (maxVal > 99) {
+            maxVal = 99;
+            this.maxNumberInput.value = 99;
+        }
+        
+        // Ensure min < max
+        if (minVal >= maxVal) {
+            maxVal = minVal + 1;
+            if (maxVal > 99) {
+                maxVal = 99;
+                minVal = 98;
+                this.minNumberInput.value = 98;
+            }
+            this.maxNumberInput.value = maxVal;
+        }
+        
+        // Ensure we have at least 25 numbers
+        if (maxVal - minVal + 1 < 25) {
+            maxVal = minVal + 24;
+            if (maxVal > 99) {
+                maxVal = 99;
+                minVal = 75;
+                this.minNumberInput.value = 75;
+            }
+            this.maxNumberInput.value = maxVal;
+        }
+        
+        this.minNumber = minVal;
+        this.maxNumber = maxVal;
+    }
+
     generateNewCard() {
         this.card = [];
         this.markedCells.clear();
         this.bingoLines = [];
         
-        // Generate 25 unique numbers (1-99)
-        const availableNumbers = Array.from({length: this.maxNumber}, (_, i) => i + 1);
+        // Generate 25 unique numbers from min to max
+        const availableNumbers = Array.from({length: this.maxNumber - this.minNumber + 1}, (_, i) => i + this.minNumber);
         const shuffledNumbers = this.shuffleArray([...availableNumbers]);
         const cardNumbers = shuffledNumbers.slice(0, 25); // 25 numbers, no free space
         
@@ -118,7 +184,7 @@ class BingoGame {
         // Hide modal
         this.hideGameOverModal();
         
-        // Generate new card
+        // Generate new card with current settings
         this.generateNewCard();
     }
 
@@ -126,7 +192,7 @@ class BingoGame {
         if (!this.gameActive) return;
         
         // Get available numbers (not yet called)
-        const availableNumbers = Array.from({length: this.maxNumber}, (_, i) => i + 1)
+        const availableNumbers = Array.from({length: this.maxNumber - this.minNumber + 1}, (_, i) => i + this.minNumber)
             .filter(num => !this.calledNumbers.includes(num));
         
         if (availableNumbers.length === 0) {
@@ -191,7 +257,7 @@ class BingoGame {
             
             // Check if player has won (5 bingo lines)
             if (this.bingoLines.length >= 5) {
-                setTimeout(() => this.endGame(), 1000);
+                setTimeout(() => this.endGame(), 300);
             }
         }
     }
